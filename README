@@ -1,7 +1,0 @@
-Sets up a new Nebula Gradle plugin.
-
-lazybones create nebula-plugin 0.1.0-SNAPSHOT <project-name>
-
-- or -
-
-lazybones create nebula-plugin 0.1.0-SNAPSHOT -Pdescription='plugin description' -Ppluginname='gradle-plugin' -Ppackage='nebula.plugin.package' -Ppluginclass='PluginName'

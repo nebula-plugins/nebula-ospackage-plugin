@@ -15,11 +15,130 @@
  */
 package nebula.plugin.ospackage.daemon
 
-import nebula.test.ProjectSpec
+import com.netflix.gradle.plugins.packaging.SystemPackagingPlugin
+import nebula.test.PluginProjectSpec
+import org.codehaus.groovy.runtime.StackTraceUtils
+import org.gradle.api.ProjectConfigurationException
 
-class OspackageDaemonPluginSpec extends ProjectSpec {
+class OspackageDaemonPluginSpec extends PluginProjectSpec {
     @Override
-    void getPluginName() {
+    String getPluginName() {
         'nebula-ospackage-daemon'
+    }
+
+    def 'at least one deamonName is needed'() {
+        when:
+        OspackageDaemonPlugin plugin = project.plugins.apply(OspackageDaemonPlugin)
+        plugin.extension.daemon {
+            command = 'exit 0'
+        }
+
+        then:
+        noExceptionThrown()
+
+        when:
+        plugin.extension.daemon {
+            command = 'exit 0'
+        }
+        project.evaluate()
+
+        then:
+        def e = thrown(Exception)
+        StackTraceUtils.extractRootCause(e) instanceof IllegalArgumentException
+    }
+
+    def 'no duplicate names'() {
+        when:
+        OspackageDaemonPlugin plugin = project.plugins.apply(OspackageDaemonPlugin)
+        plugin.extension.daemon {
+            daemonName = 'foo'
+        }
+        plugin.extension.daemon {
+            daemonName = 'foo'
+        }
+        project.evaluate()
+
+        then:
+        def e = thrown(Exception)
+        StackTraceUtils.extractRootCause(e) instanceof IllegalArgumentException
+    }
+
+    def 'can call daemon directly in project'() {
+        when:
+        OspackageDaemonPlugin plugin = project.plugins.apply(OspackageDaemonPlugin)
+        DaemonExtension extension = plugin.extension
+
+        project.daemon {
+            daemonName = 'foobar'
+            command = 'exit 0'
+        }
+
+        then: 'daemon was added to list'
+        !extension.daemons.isEmpty()
+
+        then: 'daemon configurate'
+        extension.daemons.iterator().next().daemonName == 'foobar'
+    }
+
+    def 'can call daemons extensions in project'() {
+        when:
+        OspackageDaemonPlugin plugin = project.plugins.apply(OspackageDaemonPlugin)
+        DaemonExtension extension = plugin.extension
+
+        project.daemons {
+            daemon {
+                daemonName = 'foobar'
+                command = 'exit 0'
+            }
+        }
+
+        then: 'daemon was added to list'
+        !extension.daemons.isEmpty()
+
+        then: 'daemon configurate'
+        extension.daemons.iterator().next().daemonName == 'foobar'
+    }
+
+    def 'tasks are created'() {
+        when:
+        project.plugins.apply(SystemPackagingPlugin)
+        OspackageDaemonPlugin plugin = project.plugins.apply(OspackageDaemonPlugin)
+        plugin.extension.daemon {
+            daemonName = 'foobar'
+            command = 'exit 1'
+        }
+        plugin.extension.daemon {
+            daemonName = 'baz'
+            command = 'exit 0'
+        }
+        project.evaluate()
+
+        then:
+        project.tasks.getByName('buildDebFoobarDaemon')
+        project.tasks.getByName('buildRpmFoobarDaemon')
+        project.tasks.getByName('buildDebBazDaemon')
+        project.tasks.getByName('buildRpmBazDaemon')
+
+    }
+    def 'run tasks'() {
+        when:
+        project.plugins.apply(SystemPackagingPlugin)
+        OspackageDaemonPlugin plugin = project.plugins.apply(OspackageDaemonPlugin)
+        plugin.extension.daemon {
+            daemonName = 'foobar'
+            command = 'exit 0'
+        }
+        project.evaluate()
+
+        then: 'task is created after evaluation'
+        DaemonTemplateTask templateTask = project.tasks.getByName('buildDebFoobarDaemon')
+        templateTask != null
+
+        when:
+        templateTask.template()
+
+        then:
+        File initd = new File(projectDir, 'build/daemon/foobar/buildDeb/initd')
+        initd.exists()
     }
 }

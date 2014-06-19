@@ -15,7 +15,7 @@
  */
 buildscript {
     repositories { jcenter() }
-    dependencies { classpath 'com.netflix.nebula:nebula-plugin-plugin:1.9.9' }
+    dependencies { classpath 'com.netflix.nebula:nebula-plugin-plugin:1.9.+' }
 }
 
 description 'Opinionated plugins that wrap the gradle-ospackage-plugin'
@@ -23,6 +23,9 @@ apply plugin: 'nebula-plugin'
 apply plugin: 'nebula-sign'
 
 dependencies {
+    compile 'com.netflix.nebula:gradle-ospackage-plugin:1.9.3'
+    testCompile 'com.netflix.nebula:nebula-test:1.9.6'
+    testCompile 'com.netflix.nebula:gradle-ospackage-plugin:1.9.3:tests'
 }
 
 def pomConfig = {
