@@ -1,19 +1,19 @@
 #!/bin/sh
 <% if (isRedhat) { %>
-# chkconfig: \${runLevels.join("")} \${startSequence} \${stopSequence}
-# description: Control Script for \${daemonName}
+# chkconfig: ${runLevels.join("")} ${startSequence} ${stopSequence}
+# description: Control Script for ${daemonName}
 
 . /etc/rc.d/init.d/functions
 <%
 } else {
 %>
 ### BEGIN INIT INFO
-# Provides:          \${daemonName}
-# Default-Start:     \${runLevels}
+# Provides:          ${daemonName}
+# Default-Start:     ${runLevels.join(" ")}
 # Default-Stop:      0 1 6
 # Required-Start:
 # Required-Stop:
-# Description: Control Script for \${daemonName}
+# Description: Control Script for ${daemonName}
 ### END INIT INFO
 <% } %>
 
@@ -21,17 +21,17 @@ service=${daemonName}
 <% if (isRedhat) { %>
 subsys_lock="/var/lock/subsys/\$service"
 <% } %>
-daemontools_service=/service/\${daemonName}
+daemontools_service=/service/${daemonName}
 
 <% if (isRedhat) { %>
-if [ -e /etc/sysconfig/\${daemonName} ]; then
-  . /etc/sysconfig/\${daemonName}
+if [ -e /etc/sysconfig/${daemonName} ]; then
+  . /etc/sysconfig/${daemonName}
 fi
 <%
 } else {
 %>
-if [ -e /etc/default/\${daemonName} ]; then
-  . /etc/default/\${daemonName}
+if [ -e /etc/default/${daemonName} ]; then
+  . /etc/default/${daemonName}
 fi
 <% } %>
 
@@ -90,7 +90,7 @@ start)
     fi
     ;;
 restart)
-    echo -n "\${service}: "
+    echo -n "\$service: "
     restart
     if [ \$? -eq 0 ]
     then
@@ -109,6 +109,6 @@ restart)
     fi
     ;;
   *)
-    echo "Usage: service \${service} {start|stop|restart}"
+    echo "Usage: service \$service {start|stop|restart}"
     exit 1
 esac
