@@ -28,20 +28,6 @@ class OspackageDaemonPlugin implements Plugin<Project> {
     Project project
     DaemonExtension extension
 
-    /*
-    def debTemplateMapping = [
-            'log-run': '/system/log/run',
-            'run': '/system',
-            'initd': '/etc/init.d'
-    ]
-
-    def rpmTemplateMapping = [
-            'log-run': '/system/log/run',
-            'run': '/system',
-            'initd': '/etc/rc.d/init.d'
-    ]
-    */
-
     Map<String,Object> toContext(DaemonDefinition definitionDefaults, DaemonDefinition definition) {
         return [
                 daemonName: definition.daemonName ?: definitionDefaults.daemonName,
@@ -49,7 +35,7 @@ class OspackageDaemonPlugin implements Plugin<Project> {
                 user: definition.user ?: definitionDefaults.user,
                 logCommand: definition.logCommand ?: definitionDefaults.logCommand,
                 runLevels: definition.runLevels ?: definitionDefaults.runLevels,
-                autoStart: definition.autoStart ?: definitionDefaults.autoStart,
+                autoStart: definition.autoStart != null? definition.autoStart : definitionDefaults.autoStart,
                 startSequence: definition.startSequence ?: definitionDefaults.startSequence,
                 stopSequence: definition.stopSequence ?: definitionDefaults.stopSequence
         ]
@@ -121,6 +107,16 @@ class OspackageDaemonPlugin implements Plugin<Project> {
                         fileMode 0555 // Since source files don't have the correct permissions
                         user context.user
                     }
+                }
+
+
+                def installCmd = isRedhat?
+                        "/sbin/chkconfig ${context.daemonName} on":
+                        "/usr/sbin/update-rc.d ${context.daemonName} start ${context.startSequence} ${context.runLevels.join(' ')} . stop ${context.stopSequence} ${([0,1,2,3,4,5,6]-context.runLevels).join(' ')} ."
+                println "***********************\n$context"
+                if (context.autoStart) {
+
+                    task.postInstall(installCmd)
                 }
             }
         }

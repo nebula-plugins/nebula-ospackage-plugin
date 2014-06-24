@@ -2,6 +2,7 @@ package nebula.plugin.ospackage.daemon
 
 import com.netflix.gradle.plugins.packaging.SystemPackagingPlugin
 import nebula.test.IntegrationSpec
+import spock.lang.Ignore
 
 class OspackageDaemonPluginLauncherSpec extends IntegrationSpec {
 
@@ -90,6 +91,11 @@ class OspackageDaemonPluginLauncherSpec extends IntegrationSpec {
         ['/service/foobaz/run', '/service/foobaz/log/run', '/etc/init.d/foobaz'].each {
             scan.getEntry(".${it}").isFile()
         }
+
+        scan.controlContents.containsKey('./postinst')
+        scan.controlContents['./postinst'].contains("/usr/sbin/update-rc.d foobaz start 85 2 3 4 5 . stop 15 0 1 6 .")
+        scan.controlContents['./postinst'].contains("/usr/sbin/update-rc.d all-the-bells-an-whistles start 85 2 3 4 5 . stop 15 0 1 6 .")
+        !scan.controlContents['./postinst'].contains("/usr/sbin/update-rc.d fooqux") // no autostart
 
         // RPM
         def rpmScan = com.netflix.gradle.plugins.rpm.Scanner.scan(file("build/distributions/${moduleName}-unspecified.noarch.rpm"))
