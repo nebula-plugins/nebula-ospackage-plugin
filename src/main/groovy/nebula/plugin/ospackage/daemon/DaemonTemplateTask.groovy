@@ -1,14 +1,13 @@
 package nebula.plugin.ospackage.daemon
 
-import org.gradle.api.DefaultTask
+import org.gradle.api.internal.ConventionTask
 import org.gradle.api.tasks.Input
-import org.gradle.api.tasks.OutputFiles
 import org.gradle.api.tasks.TaskAction
 
 /**
  * Monster class that does everything.
  */
-class DaemonTemplateTask extends DefaultTask {
+class DaemonTemplateTask extends ConventionTask {
     //@Input
     Map<String, String> context
 

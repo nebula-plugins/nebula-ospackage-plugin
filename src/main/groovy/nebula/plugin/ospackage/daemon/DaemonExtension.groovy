@@ -14,5 +14,6 @@ class DaemonExtension {
         def definition = new DaemonDefinition()
         ConfigureUtil.configure(configure, definition)
         daemons.add(definition)
+        return definition
     }
 }
