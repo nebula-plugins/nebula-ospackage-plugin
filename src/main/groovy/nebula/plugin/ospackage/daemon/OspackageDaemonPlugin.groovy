@@ -85,6 +85,7 @@ class OspackageDaemonPlugin implements Plugin<Project> {
                 def mapping = [
                         'log-run': "/service/${context.daemonName}/log/run",
                         'run': "/service/${context.daemonName}/run",
+                        'down': "/service/${context.daemonName}/down",
                         'initd': isRedhat?"/etc/rc.d/init.d/${context.daemonName}":"/etc/init.d/${context.daemonName}"
                 ]
 
