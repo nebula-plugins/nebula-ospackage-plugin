@@ -19,3 +19,7 @@ contacts {
         github 'quidryan'
     }
 }
+
+test {
+  systemProperty 'cleanProjectDir', 'false'
+}
