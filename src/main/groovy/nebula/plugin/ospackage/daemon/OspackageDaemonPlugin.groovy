@@ -85,7 +85,6 @@ class OspackageDaemonPlugin implements Plugin<Project> {
                 def mapping = [
                         'log-run': "/service/${context.daemonName}/log/run",
                         'run': "/service/${context.daemonName}/run",
-                        'down': "/service/${context.daemonName}/down",
                         'initd': isRedhat?"/etc/rc.d/init.d/${context.daemonName}":"/etc/init.d/${context.daemonName}"
                 ]
 
@@ -110,6 +109,8 @@ class OspackageDaemonPlugin implements Plugin<Project> {
                     }
                 }
 
+                task.postInstall("[ -x /bin/touch ] && touch=/bin/touch || touch=/usr/bin/touch")
+                task.postInstall("\$touch /service/${context.daemonName}/down")
 
                 def installCmd = isRedhat?
                         "/sbin/chkconfig ${context.daemonName} on":
