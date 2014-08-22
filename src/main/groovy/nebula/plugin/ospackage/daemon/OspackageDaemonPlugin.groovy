@@ -109,6 +109,8 @@ class OspackageDaemonPlugin implements Plugin<Project> {
                     }
                 }
 
+                task.postInstall("[ -x /bin/touch ] && touch=/bin/touch || touch=/usr/bin/touch")
+                task.postInstall("\$touch /service/${context.daemonName}/down")
 
                 def installCmd = isRedhat?
                         "/sbin/chkconfig ${context.daemonName} on":
