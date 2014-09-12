@@ -137,7 +137,7 @@ class OspackageDaemonPluginSpec extends PluginProjectSpec {
         templateTask.template()
 
         then:
-        File initd = new File(projectDir, 'build/daemon/foobar/buildDeb/initd')
+        File initd = new File(projectDir, 'build/daemon/Foobar/buildDeb/initd')
         initd.exists()
     }
 }

@@ -117,6 +117,10 @@ class OspackageDaemonPlugin implements Plugin<Project> {
                     def startSequence = templateTask.getContext().startSequence
                     def stopSequence = templateTask.getContext().stopSequence
                     def runLevels = templateTask.getContext().runLevels
+
+                    task.postInstall("[ -x /bin/touch ] && touch=/bin/touch || touch=/usr/bin/touch")
+                    task.postInstall("\$touch /service/${daemonName}/down")
+
                     def installCmd = isRedhat?
                             "/sbin/chkconfig ${daemonName} on":
                             "/usr/sbin/update-rc.d ${daemonName} start ${startSequence} ${runLevels.join(' ')} . stop ${stopSequence} ${([0,1,2,3,4,5,6]-runLevels).join(' ')} ."
