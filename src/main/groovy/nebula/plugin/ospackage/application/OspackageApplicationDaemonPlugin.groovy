@@ -28,10 +28,9 @@ class OspackageApplicationDaemonPlugin implements Plugin<Project> {
         project.plugins.apply(OspackageApplicationPlugin)
         def ospackageApplicationExtension = project.extensions.getByType(OspackageApplicationExtension)
 
-        CreateStartScripts startScripts = project.tasks[ApplicationPlugin.TASK_START_SCRIPTS_NAME]
+        CreateStartScripts startScripts = (CreateStartScripts) project.tasks.getByName(ApplicationPlugin.TASK_START_SCRIPTS_NAME)
 
         project.plugins.apply(OspackageDaemonPlugin)
-        def daemonExt = project.extensions.getByType(DaemonExtension)
 
         // Mechanism for user to configure daemon further
         List<Closure> daemonConfiguration = []
@@ -45,6 +44,7 @@ class OspackageApplicationDaemonPlugin implements Plugin<Project> {
             def name = startScripts.applicationName
 
             // Add daemon to project
+            def daemonExt = project.extensions.getByType(DaemonExtension)
             def definition = daemonExt.daemon {
                 demonName = name
                 // TODO Make destination directory more configurable in the nebula-ospackage-application plugin

@@ -19,9 +19,9 @@ class DaemonTemplateTask extends ConventionTask {
 
     @TaskAction
     def template() {
-        TemplateHelper templateHelper = new TemplateHelper(destDir, '/nebula/plugin/ospackage/daemon')
-        templates.collect{ String templateName ->
-            templateHelper.generateFile(templateName, context)
+        TemplateHelper templateHelper = new TemplateHelper(getDestDir(), '/nebula/plugin/ospackage/daemon')
+        getTemplates().collect { String templateName ->
+            templateHelper.generateFile(templateName, getContext())
         }
     }
 

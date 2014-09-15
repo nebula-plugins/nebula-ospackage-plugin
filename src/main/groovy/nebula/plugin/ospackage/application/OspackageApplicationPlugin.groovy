@@ -12,7 +12,7 @@ import org.gradle.api.tasks.application.CreateStartScripts
 
 /**
  * Combine the os-package with the Application plugin. Currently heavily opinionated to where
- * the code will live.
+ * the code will live, though that is slightly configurable using the ospackage-application extension.
  *
  * TODO Make a base plugin, so that this plugin can require os-package
  *
@@ -29,12 +29,12 @@ class OspackageApplicationPlugin implements Plugin<Project> {
     @Override
     void apply(Project project) {
 
-        extension = project.extensions.create('ospackage-application', OspackageApplicationExtension)
+        extension = project.extensions.create('ospackage_application', OspackageApplicationExtension)
         ((IConventionAware) extension).conventionMapping.map('prefix') { '/opt'}
 
         project.plugins.apply(ApplicationPlugin)
         ApplicationPluginConvention appConvention = project.convention.getPlugin(ApplicationPluginConvention)
-        CreateStartScripts startScripts = project.tasks[ApplicationPlugin.TASK_START_SCRIPTS_NAME]
+        CreateStartScripts startScripts = (CreateStartScripts) project.tasks.getByName(ApplicationPlugin.TASK_START_SCRIPTS_NAME)
 
         project.plugins.apply(SystemPackagingBasePlugin.class)
         def packagingExt = project.extensions.getByType(ProjectPackagingExtension)
@@ -42,6 +42,8 @@ class OspackageApplicationPlugin implements Plugin<Project> {
 
         // Using a closure here to delay evaluation of prefix
         packagingExt.into { "${extension.getPrefix()}/${startScripts.applicationName}" }
+
+        // Use post-install to fix permissions
 
         // Maybe stepping over the line, but it'll make it much easier to use.
         project.plugins.apply(SystemPackagingPlugin)
