@@ -1,15 +1,16 @@
 buildscript {
     repositories { jcenter() }
-    dependencies { classpath 'com.netflix.nebula:nebula-plugin-plugin:1.12.3' }
+    dependencies { classpath 'com.netflix.nebula:nebula-plugin-plugin:1.12.+' }
 }
 
 description 'Opinionated plugins that wrap the gradle-ospackage-plugin'
 apply plugin: 'nebula-plugin'
-apply plugin: 'nebula-sign'
 
 dependencies {
     compile 'com.netflix.nebula:gradle-ospackage-plugin:1.12.+'
     testCompile 'com.netflix.nebula:nebula-test:1.12.+'
+    // We have to ask for the test configuration and the tests jar separately when calling a POM dependency
+    testCompile group: 'com.netflix.nebula', name: 'gradle-ospackage-plugin', version: '1.12.+', configuration: 'test'
     testCompile 'com.netflix.nebula:gradle-ospackage-plugin:1.12.+:tests'
 }
 
@@ -23,3 +24,20 @@ contacts {
 test {
   systemProperty 'cleanProjectDir', 'false'
 }
+ 
+ /*
+import org.gradle.api.internal.tasks.options.Option
+class ShowConfiguration extends DefaultTask {
+    @Option(option='configuration', description='Name of configuration')
+    String configurationName
+
+    @TaskAction
+    def printOut() {
+        def confName = configurationName ?: 'runtime'
+        project.configurations[confName].files.each {
+            println it
+        }
+    }
+}
+task showConfiguration(type: ShowConfiguration)
+*/

@@ -104,9 +104,10 @@ There is a single property available on a _ospackage-application_ extension whic
     }
     
 Otherwise the prefix defaults to _/opt_, the actual installation will be to into _/opt/$applicationName_, where 
-_applicationName_ comes from the Application plugin.
+_applicationName_ comes from the Application plugin. As usual to the Application plugin, the user has to provide a
+_mainClassName_.
 
-Once configured, the project will produce a DEB and a RPM with the context of the application:
+Once configured with a system packaging task, the project will produce a DEB or RPM with the context of the application:
 
     gradlew buildDeb
 
@@ -133,7 +134,7 @@ To include, add the following to your build.gradle
 
 ## Usage
 
-Since this plugin is making the daemon for you, it could be difficult ot access the standard daemon configuration. To
+Since this plugin is making the daemon for you, it could be difficult to access the standard daemon configuration. To
 alleviate this, there's a extension provided for configuring the application daemon, called _applicationdaemon_:
 
     applicationdaemon {
