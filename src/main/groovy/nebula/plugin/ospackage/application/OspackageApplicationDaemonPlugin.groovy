@@ -46,8 +46,7 @@ class OspackageApplicationDaemonPlugin implements Plugin<Project> {
             // Add daemon to project
             def daemonExt = project.extensions.getByType(DaemonExtension)
             def definition = daemonExt.daemon {
-                demonName = name
-                // TODO Make destination directory more configurable in the nebula-ospackage-application plugin
+                daemonName = name
                 command = "${ospackageApplicationExtension.prefix}/${name}/bin/${name}"
             }
 
