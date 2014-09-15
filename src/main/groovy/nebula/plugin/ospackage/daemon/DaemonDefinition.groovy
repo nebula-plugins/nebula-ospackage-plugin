@@ -1,7 +1,6 @@
 package nebula.plugin.ospackage.daemon
 
 import groovy.transform.Canonical
-import org.gradle.api.Named
 
 /**
  * Template variables. Fields start off empty an only at

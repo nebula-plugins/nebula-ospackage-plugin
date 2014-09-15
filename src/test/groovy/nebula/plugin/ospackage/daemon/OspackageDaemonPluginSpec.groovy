@@ -18,7 +18,6 @@ package nebula.plugin.ospackage.daemon
 import com.netflix.gradle.plugins.packaging.SystemPackagingPlugin
 import nebula.test.PluginProjectSpec
 import org.codehaus.groovy.runtime.StackTraceUtils
-import org.gradle.api.ProjectConfigurationException
 
 class OspackageDaemonPluginSpec extends PluginProjectSpec {
     @Override

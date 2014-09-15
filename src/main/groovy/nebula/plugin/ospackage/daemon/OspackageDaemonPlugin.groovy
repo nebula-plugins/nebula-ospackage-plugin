@@ -15,7 +15,6 @@
  */
 package nebula.plugin.ospackage.daemon
 
-import com.netflix.gradle.plugins.deb.Deb
 import com.netflix.gradle.plugins.packaging.SystemPackagingBasePlugin
 import com.netflix.gradle.plugins.packaging.SystemPackagingTask
 import com.netflix.gradle.plugins.rpm.Rpm
@@ -70,28 +69,33 @@ class OspackageDaemonPlugin implements Plugin<Project> {
             project.tasks.withType(SystemPackagingTask) { SystemPackagingTask task ->
                 def isRedhat = task instanceof Rpm
                 DaemonDefinition defaults = new DaemonDefinition(null, null, 'root', 'multilog t ./main', isRedhat?[3,4,5]:[2,3,4,5], Boolean.TRUE, 85, 15)
-                Map<String, String> context = toContext(defaults, definition)
 
-                context.daemonName = definition.daemonName ?: task.getPackageName()
-                if (!context.daemonName) {
+                // Calculate daemonName really early, but everything else can be done later.
+                def daemonName = definition.daemonName ?: defaults.daemonName ?: task.getPackageName()
+
+                if (!daemonName) {
                     throw new IllegalArgumentException("Unable to find a name on definition ${definition}")
                 }
-                String cleanedName = context.daemonName.replaceAll("\\W", "").capitalize()
+                String cleanedName = daemonName.replaceAll("\\W", "").capitalize()
 
-                context.isRedhat = isRedhat
 
                 def outputDir = new File(project.buildDir, "daemon/${cleanedName}/${task.name}")
 
                 def mapping = [
-                        'log-run': "/service/${context.daemonName}/log/run",
-                        'run': "/service/${context.daemonName}/run",
-                        'initd': isRedhat?"/etc/rc.d/init.d/${context.daemonName}":"/etc/init.d/${context.daemonName}"
+                        'log-run': "/service/${daemonName}/log/run",
+                        'run': "/service/${daemonName}/run",
+                        'initd': isRedhat?"/etc/rc.d/init.d/${daemonName}":"/etc/init.d/${daemonName}"
                 ]
 
                 def templateTask = project.tasks.create("${task.name}${cleanedName}Daemon", DaemonTemplateTask)
-                templateTask.destDir = outputDir
-                templateTask.context = context
-                templateTask.templates = mapping.keySet()
+                templateTask.conventionMapping.map('destDir') { outputDir }
+                templateTask.conventionMapping.map('context') {
+                    Map<String, String> context = toContext(defaults, definition)
+                    context.daemonName = daemonName
+                    context.isRedhat = isRedhat
+                    context
+                }
+                templateTask.conventionMapping.map('templates') { mapping.keySet() }
 
                 task.dependsOn(templateTask)
                 mapping.each { String templateName, String destPath ->
@@ -105,20 +109,26 @@ class OspackageDaemonPlugin implements Plugin<Project> {
                         into(destDir)
                         rename('.*', destFile)
                         fileMode 0555 // Since source files don't have the correct permissions
-                        user context.user
+                        user templateTask.getContext().user // TODO Confirm this is late enough
                     }
                 }
 
-                task.postInstall("[ -x /bin/touch ] && touch=/bin/touch || touch=/usr/bin/touch")
-                task.postInstall("\$touch /service/${context.daemonName}/down")
+                task.doFirst {
+                    def startSequence = templateTask.getContext().startSequence
+                    def stopSequence = templateTask.getContext().stopSequence
+                    def runLevels = templateTask.getContext().runLevels
 
-                def installCmd = isRedhat?
-                        "/sbin/chkconfig ${context.daemonName} on":
-                        "/usr/sbin/update-rc.d ${context.daemonName} start ${context.startSequence} ${context.runLevels.join(' ')} . stop ${context.stopSequence} ${([0,1,2,3,4,5,6]-context.runLevels).join(' ')} ."
-                println "***********************\n$context"
-                if (context.autoStart) {
+                    task.postInstall("[ -x /bin/touch ] && touch=/bin/touch || touch=/usr/bin/touch")
+                    task.postInstall("\$touch /service/${daemonName}/down")
 
-                    task.postInstall(installCmd)
+                    def installCmd = isRedhat?
+                            "/sbin/chkconfig ${daemonName} on":
+                            "/usr/sbin/update-rc.d ${daemonName} start ${startSequence} ${runLevels.join(' ')} . stop ${stopSequence} ${([0,1,2,3,4,5,6]-runLevels).join(' ')} ."
+
+                    if (templateTask.getContext().autoStart) {
+                        task.postInstall(installCmd)
+                    }
+
                 }
             }
         }

@@ -2,7 +2,6 @@ package nebula.plugin.ospackage.daemon
 
 import com.netflix.gradle.plugins.packaging.SystemPackagingPlugin
 import nebula.test.IntegrationSpec
-import spock.lang.Ignore
 
 class OspackageDaemonPluginLauncherSpec extends IntegrationSpec {
 
