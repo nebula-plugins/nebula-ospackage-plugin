@@ -24,20 +24,3 @@ contacts {
 test {
   systemProperty 'cleanProjectDir', 'false'
 }
- 
- /*
-import org.gradle.api.internal.tasks.options.Option
-class ShowConfiguration extends DefaultTask {
-    @Option(option='configuration', description='Name of configuration')
-    String configurationName
-
-    @TaskAction
-    def printOut() {
-        def confName = configurationName ?: 'runtime'
-        project.configurations[confName].files.each {
-            println it
-        }
-    }
-}
-task showConfiguration(type: ShowConfiguration)
-*/
