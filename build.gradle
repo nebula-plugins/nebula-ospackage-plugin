@@ -1,17 +1,23 @@
 buildscript {
     repositories { jcenter() }
-    dependencies { classpath 'com.netflix.nebula:nebula-plugin-plugin:1.12.+' }
+    dependencies { classpath 'com.netflix.nebula:nebula-plugin-plugin:2.0.+' }
 }
 
 description 'Opinionated plugins that wrap the gradle-ospackage-plugin'
 apply plugin: 'nebula-plugin'
+apply plugin: 'idea'
 
 dependencies {
-    compile 'com.netflix.nebula:gradle-ospackage-plugin:1.12.+'
-    testCompile 'com.netflix.nebula:nebula-test:1.12.+'
+    compile localGroovy()
+    compile 'com.netflix.nebula:gradle-ospackage-plugin:2.0.+'
+    testCompile('com.netflix.nebula:nebula-test:2.0.+') {
+        exclude group: 'org.codehaus.groovy'
+    }
     // We have to ask for the test configuration and the tests jar separately when calling a POM dependency
-    testCompile group: 'com.netflix.nebula', name: 'gradle-ospackage-plugin', version: '1.12.+', configuration: 'test'
-    testCompile 'com.netflix.nebula:gradle-ospackage-plugin:1.12.+:tests'
+    testCompile(group: 'com.netflix.nebula', name: 'gradle-ospackage-plugin', version: '2.0.+', configuration: 'test') {
+        exclude group: 'com.netflix.nebula', module: 'nebula-test'
+    }
+    testCompile 'com.netflix.nebula:gradle-ospackage-plugin:2.0.+:tests'
 }
 
 contacts {
