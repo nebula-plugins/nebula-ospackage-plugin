@@ -67,6 +67,8 @@ class OspackageDaemonPluginLauncherSpec extends IntegrationSpec {
                   daemonName = "fooqux" // default = packageName
                   command = "sleep infinity" // required
                   user = "nobody" // default = "root"
+                  logUser = "root" // default = "nobody"
+                  logDir = "/tmp" // default = "./main"
                   logCommand = "cronolog /logs/foobar/foobar.log" // default = "multilog t ./main"
                   runLevels = [3,4] // rpm default == [3,4,5], deb default = [2,3,4,5]
                   autoStart = false // default = true

@@ -1,4 +1,4 @@
 #!/bin/sh
-mkdir -p ./main
-chown nobody:nobody ./main
-exec setuidgid nobody ${logCommand}
+mkdir -p ${logDir}
+chown ${logUser}:nobody ${logDir}
+exec setuidgid ${logUser} ${logCommand}
