@@ -16,5 +16,6 @@ class DaemonDefinition {
     Boolean autoStart // default true
     Integer startSequence // default 85
     Integer stopSequence // default 15
-
+    String logDir // defaults to "./main"
+    String logUser // defaults to "nobody"
 }
