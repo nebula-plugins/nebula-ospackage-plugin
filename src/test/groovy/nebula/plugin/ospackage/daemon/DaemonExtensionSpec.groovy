@@ -13,6 +13,8 @@ class DaemonExtensionSpec extends Specification {
             daemonName = 'foobar'
             command = 'exit 0'
             user = 'builds'
+            logUser = 'root'
+            logDir = '/tmp'
             logCommand = 'multipass'
             runLevels = [1,2]
             autoStart = false
@@ -26,6 +28,8 @@ class DaemonExtensionSpec extends Specification {
         definition.daemonName == 'foobar'
         definition.command == 'exit 0'
         definition.user == 'builds'
+        definition.logUser == 'root'
+        definition.logDir == '/tmp'
         definition.logCommand == 'multipass'
         definition.runLevels == [1,2]
         !definition.autoStart

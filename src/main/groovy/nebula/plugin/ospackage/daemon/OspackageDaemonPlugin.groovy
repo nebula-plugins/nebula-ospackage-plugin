@@ -33,6 +33,8 @@ class OspackageDaemonPlugin implements Plugin<Project> {
                 command: definition.command,
                 user: definition.user ?: definitionDefaults.user,
                 logCommand: definition.logCommand ?: definitionDefaults.logCommand,
+                logUser: definition.logUser ?: definitionDefaults.logUser,
+                logDir: definition.logDir ?: definitionDefaults.logDir,
                 runLevels: definition.runLevels ?: definitionDefaults.runLevels,
                 autoStart: definition.autoStart != null? definition.autoStart : definitionDefaults.autoStart,
                 startSequence: definition.startSequence ?: definitionDefaults.startSequence,
