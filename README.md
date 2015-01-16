@@ -99,7 +99,7 @@ To include, add the following to your build.gradle
 
 There is a single property available on a _ospackage-application_ extension which controls the prefix.
 
-    ospackage-application {
+    ospackage_application {
         prefix = '/usr/local'
     }
     
