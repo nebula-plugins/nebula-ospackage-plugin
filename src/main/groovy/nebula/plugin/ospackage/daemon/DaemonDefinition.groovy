@@ -12,10 +12,10 @@ class DaemonDefinition {
     String command // Required
     String user // defaults to "root"
     String logCommand // defaults to "multilog t ./main"
+    String logDir // defaults to "./main"
+    String logUser // defaults to "nobody"
     List<Integer> runLevels = new LinkedList<>() // rpm default == [3,4,5], deb default = [2,3,4,5]
     Boolean autoStart // default true
     Integer startSequence // default 85
     Integer stopSequence // default 15
-    String logDir // defaults to "./main"
-    String logUser // defaults to "nobody"
 }
