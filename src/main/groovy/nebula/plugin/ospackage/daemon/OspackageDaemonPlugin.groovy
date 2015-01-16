@@ -70,7 +70,7 @@ class OspackageDaemonPlugin implements Plugin<Project> {
 
             project.tasks.withType(SystemPackagingTask) { SystemPackagingTask task ->
                 def isRedhat = task instanceof Rpm
-                DaemonDefinition defaults = new DaemonDefinition(null, null, 'root', 'multilog t ./main', isRedhat?[3,4,5]:[2,3,4,5], Boolean.TRUE, 85, 15)
+                DaemonDefinition defaults = getDefaultDaemonDefinition(isRedhat)
 
                 // Calculate daemonName really early, but everything else can be done later.
                 def daemonName = definition.daemonName ?: defaults.daemonName ?: task.getPackageName()
@@ -134,6 +134,10 @@ class OspackageDaemonPlugin implements Plugin<Project> {
                 }
             }
         }
+    }
+
+    def getDefaultDaemonDefinition(boolean isRedhat) {
+        new DaemonDefinition(null, null, 'root', 'multilog t ./main', "./main", "nobody", isRedhat ? [3, 4, 5] : [2, 3, 4, 5], Boolean.TRUE, 85, 15)
     }
 }
 

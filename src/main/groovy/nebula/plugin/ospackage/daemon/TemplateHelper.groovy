@@ -19,6 +19,11 @@ class TemplateHelper {
 
     File generateFile(String templateName, Map context) {
         logger.info("Generating ${templateName} file...")
+        context.each { key, value ->
+            if (value == null) {
+                throw new IllegalArgumentException("Context key $key has a null value")
+            }
+        }
         def template = getClass().getResourceAsStream("${templatePrefix}/${templateName}.tpl").newReader()
         def content = engine.createTemplate(template).make(context).toString()
         def contentFile = new File(destDir, templateName)
