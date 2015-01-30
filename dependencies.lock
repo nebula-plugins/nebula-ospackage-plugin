@@ -1,4 +1,4 @@
 {
-  "com.netflix.nebula:gradle-ospackage-plugin": { "locked": "2.0.2", "requested": "1.12.+" },
-  "com.netflix.nebula:nebula-test": { "locked": "2.0.1", "requested": "2.0.+" }
+  "com.netflix.nebula:gradle-ospackage-plugin": { "locked": "2.2.0", "requested": "2.2.+" },
+  "com.netflix.nebula:nebula-test": { "locked": "2.2.0", "requested": "2.2.+" }
 }
