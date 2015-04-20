@@ -73,7 +73,8 @@ class OspackageDaemonPlugin implements Plugin<Project> {
                 DaemonDefinition defaults = getDefaultDaemonDefinition(isRedhat)
 
                 // Calculate daemonName really early, but everything else can be done later.
-                def daemonName = definition.daemonName ?: defaults.daemonName ?: task.getPackageName()
+                // tasks' package name wont' exists if it's a docker task
+                def daemonName = definition.daemonName ?: defaults.daemonName ?: task.getPackageName() ?: project.name
 
                 if (!daemonName) {
                     throw new IllegalArgumentException("Unable to find a name on definition ${definition}")
@@ -111,7 +112,7 @@ class OspackageDaemonPlugin implements Plugin<Project> {
                         into(destDir)
                         rename('.*', destFile)
                         fileMode 0555 // Since source files don't have the correct permissions
-                        user templateTask.getContext().user // TODO Confirm this is late enough
+                        user 'root'
                     }
                 }
 
