@@ -9,15 +9,15 @@ apply plugin: 'idea'
 
 dependencies {
     compile localGroovy()
-    compile 'com.netflix.nebula:gradle-ospackage-plugin:2.2.+'
-    testCompile('com.netflix.nebula:nebula-test:2.2.+') {
+    compile 'com.netflix.nebula:gradle-ospackage-plugin:2.4.+'
+    testCompile('com.netflix.nebula:nebula-test:2.4.+') {
         exclude group: 'org.codehaus.groovy'
     }
     // We have to ask for the test configuration and the tests jar separately when calling a POM dependency
-    testCompile(group: 'com.netflix.nebula', name: 'gradle-ospackage-plugin', version: '2.2.+', configuration: 'test') {
+    testCompile(group: 'com.netflix.nebula', name: 'gradle-ospackage-plugin', version: '2.4.+', configuration: 'test') {
         exclude group: 'com.netflix.nebula', module: 'nebula-test'
     }
-    testCompile 'com.netflix.nebula:gradle-ospackage-plugin:2.2.+:tests'
+    testCompile 'com.netflix.nebula:gradle-ospackage-plugin:2.4.+:tests'
 }
 
 contacts {
