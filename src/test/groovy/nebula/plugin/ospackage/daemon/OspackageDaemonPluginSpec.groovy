@@ -25,17 +25,28 @@ class OspackageDaemonPluginSpec extends PluginProjectSpec {
         'nebula-ospackage-daemon'
     }
 
-    def 'at least one deamonName is needed'() {
+    def 'if no daemonName is assigned use the name of the project'() {
+        when:
+        project.plugins.apply(SystemPackagingPlugin)
+        OspackageDaemonPlugin plugin = project.plugins.apply(OspackageDaemonPlugin)
+        plugin.extension.daemon {
+            command = 'exit 1'
+        }
+        project.evaluate()
+
+        then:
+        noExceptionThrown()
+        project.tasks.withType(DaemonTemplateTask) {
+            assert it.context.daemonName == project.name
+        }
+    }
+
+    def 'no duplicate default names'() {
         when:
         OspackageDaemonPlugin plugin = project.plugins.apply(OspackageDaemonPlugin)
         plugin.extension.daemon {
             command = 'exit 0'
         }
-
-        then:
-        noExceptionThrown()
-
-        when:
         plugin.extension.daemon {
             command = 'exit 0'
         }
