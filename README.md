@@ -1,7 +1,7 @@
 nebula-ospackage-plugin
 ==============
-[![Build Status](https://travis-ci.org/nebula-plugins/nebula-ospackage-plugin.svg?branch=master)](https://travis-ci.org/nebula-plugins/projects/nebula-ospackage-plugin)
-[![Coverage Status](https://coveralls.io/repos/nebula-plugins/nebula-ospackage-plugin/badge.svg?branch=masterservice=github)](https://coveralls.io/github/nebula-plugins/projects/nebula-ospackage-plugin?branch=master)
+[![Build Status](https://travis-ci.org/nebula-plugins/nebula-ospackage-plugin.svg?branch=master)](https://travis-ci.org/nebula-plugins/nebula-ospackage-plugin)
+[![Coverage Status](https://coveralls.io/repos/nebula-plugins/nebula-ospackage-plugin/badge.svg?branch=masterservice=github)](https://coveralls.io/github/nebula-plugins/nebula-ospackage-plugin?branch=master)
 [![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/nebula-plugins/nebula-ospackage-plugin?utm_source=badgeutm_medium=badgeutm_campaign=pr-badge)
 [![Apache 2.0](https://img.shields.io/github/license/nebula-plugins/nebula-ospackage-plugin.svg)](http://www.apache.org/licenses/LICENSE-2.0)
 
