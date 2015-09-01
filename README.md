@@ -1,6 +1,8 @@
 nebula-ospackage-plugin
 ==============
 
+[![Join the chat at https://gitter.im/nebula-plugins/nebula-ospackage-plugin](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/nebula-plugins/nebula-ospackage-plugin?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
 Opinionated plugins that wraps the gradle-ospackage-plugin.
 
 nebula-ospackage-daemon
