@@ -50,6 +50,14 @@ contacts {
         moniker 'Justin Ryan'
         github 'quidryan'
     }
+    'rob.spieldenner@gmail.com' {
+        moniker 'Rob Spieldenner'
+        github 'rspieldenner'
+    }
+    'dmthomas@gmail.com' {
+        moniker 'Danny Thomas'
+        github 'DanielThomas'
+    }
 }
 
 test {
@@ -58,29 +66,23 @@ test {
 
 pluginBundle {
     plugins {
-        ospackage {
-            id = 'nebula.ospackage'
-            displayName = 'Nebula OS Package Plugin'
-            description = project.description
-            tags = ['nebula', 'os', 'package', 'rpm', 'deb']
+        ospackageApplication {
+            id = 'nebula.ospackage-application'
+            displayName = 'Nebula OS Package Application Plugin'
+            description = 'Packages output of application plugin into a debian or rpm'
+            tags = ['nebula', 'os', 'package', 'rpm', 'deb', 'application']
         }
-        ospackageBase {
-            id = 'nebula.ospackage-base'
-            displayName = 'Nebula OS Package Plugin'
-            description = project.description
-            tags = ['nebula', 'os', 'package', 'rpm', 'deb']
+        ospackageApplicationDaemon {
+            id = 'nebula.ospackage-application-daemon'
+            displayName = 'Nebula OS Package Application Daemon Plugin'
+            description = 'Creates daemontools setup to run output from application plugin'
+            tags = ['nebula', 'os', 'package', 'rpm', 'deb', 'application', 'daemon']
         }
-        ospackageDocker {
-            id = 'nebula.ospackage-docker'
-            displayName = 'Nebula OS Package Plugin'
-            description = project.description
-            tags = ['nebula', 'docker']
-        }
-        ospackageDockerBase {
-            id = 'nebula.ospackage-docker-base'
-            displayName = 'Nebula Docker Base Plugin'
-            description = project.description
-            tags = ['nebula', 'docker']
+        ospackageDaemon {
+            id = 'nebula.ospackage-daemon'
+            displayName = 'Nebula OS Package Daemon Plugin'
+            description = 'Create daemontools runner'
+            tags = ['nebula', 'os', 'package', 'rpm', 'deb', 'daemon']
         }
     }
 }

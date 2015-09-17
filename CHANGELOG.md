@@ -1,3 +1,10 @@
+3.0.0 - 2015/09/17
+==================
+
+* Gradle 2.7
+* Move to travis
+* Update nebula plugins to 3.x
+
 2.2.0
 ==================
 

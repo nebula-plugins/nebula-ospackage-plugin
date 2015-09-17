@@ -8,7 +8,7 @@ nebula-ospackage-plugin
 
 Opinionated plugins that wraps the gradle-ospackage-plugin.
 
-nebula-ospackage-daemon
+nebula.ospackage-daemon
 =======================
 
 Builds the proper scripts for running a daemon (with daemontools) on CentOS and Ubuntu. 
@@ -21,11 +21,11 @@ To include, add the following to your build.gradle
         repositories { jcenter() }
 
         dependencies {
-            classpath 'com.netflix.nebula:nebula-ospackage-plugin:2.2.+'
+            classpath 'com.netflix.nebula:nebula-ospackage-plugin:3.0.0'
         }
     }
 
-    apply plugin: 'nebula-ospackage-daemon'
+    apply plugin: 'nebula.ospackage-daemon'
 
 ## Usage
 
@@ -80,7 +80,7 @@ a daemon called Foobar, a Rpm task, and a Deb task, there would also be a buildD
 task.
 
 
-nebula-ospackage-application
+nebula.ospackage-application
 =======================
 
 Takes the output of the [Application plugin](http://www.gradle.org/docs/current/userguide/application_plugin.html) and  
@@ -94,11 +94,11 @@ To include, add the following to your build.gradle
         repositories { jcenter() }
 
         dependencies {
-            classpath 'com.netflix.nebula:nebula-ospackage-plugin:2.0.+'
+            classpath 'com.netflix.nebula:nebula-ospackage-plugin:3.0.0'
         }
     }
 
-    apply plugin: 'nebula-ospackage-application'
+    apply plugin: 'nebula.ospackage-application'
 
 ## Usage
 
@@ -117,7 +117,7 @@ Once configured with a system packaging task, the project will produce a DEB or 
     gradlew buildDeb
 
 
-nebula-ospackage-application-daemon
+nebula.ospackage-application-daemon
 =======================
 
 Combine the above two plugins to create a self-running daemon out of a [Application plugin](http://www.gradle.org/docs/current/userguide/application_plugin.html) 
@@ -131,11 +131,11 @@ To include, add the following to your build.gradle
         repositories { jcenter() }
 
         dependencies {
-            classpath 'com.netflix.nebula:nebula-ospackage-plugin:2.0.+'
+            classpath 'com.netflix.nebula:nebula-ospackage-plugin:3.0.0'
         }
     }
 
-    apply plugin: 'nebula-ospackage-application-daemon'
+    apply plugin: 'nebula.ospackage-application-daemon'
 
 ## Usage
 
@@ -149,3 +149,5 @@ alleviate this, there's a extension provided for configuring the application dae
 Once configured, the project will produce a DEB and a RPM with the context of the application and the relevant daemon scripts:
 
     gradlew buildDeb buildRpm
+
+

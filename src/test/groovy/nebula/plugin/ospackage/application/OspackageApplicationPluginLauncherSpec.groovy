@@ -36,7 +36,7 @@ class OspackageApplicationPluginLauncherSpec extends IntegrationSpec {
             ospackage_application {
                 prefix = '/usr/local'
             }
-            startScripts.applicationName = 'myapp'
+            applicationName = 'myapp'
         """.stripIndent()
 
         when:
