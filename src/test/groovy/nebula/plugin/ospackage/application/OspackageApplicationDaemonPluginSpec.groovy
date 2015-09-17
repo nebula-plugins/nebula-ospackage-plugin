@@ -23,7 +23,7 @@ import org.gradle.api.plugins.ApplicationPlugin
 class OspackageApplicationDaemonPluginSpec extends PluginProjectSpec {
     @Override
     String getPluginName() {
-        'nebula-ospackage-application-daemon'
+        'nebula.ospackage-application-daemon'
     }
 
     def 'project modified by plugin'() {
