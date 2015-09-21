@@ -1,3 +1,8 @@
+3.1.0 - 2015/09/21
+==================
+
+* Actually upgrade ospackage to 3.x (specifically 3.1.0 including custom field support for debs)
+
 3.0.0 - 2015/09/17
 ==================
 

@@ -36,13 +36,19 @@ description 'Opinionated plugins that wrap the gradle-ospackage-plugin'
 
 apply from: 'https://raw.githubusercontent.com/nebula-plugins/nebula-core/596569bf3e7bd32da076784a8273dbd145bc016f/common.gradle'
 
+ext {
+    versions = [:]
+}
+
+versions.ospackage = '3.1.0'
+
 dependencies {
-    compile 'com.netflix.nebula:gradle-ospackage-plugin:2.2.+'
+    compile "com.netflix.nebula:gradle-ospackage-plugin:${versions.ospackage}"
     // We have to ask for the test configuration and the tests jar separately when calling a POM dependency
-    testCompile(group: 'com.netflix.nebula', name: 'gradle-ospackage-plugin', version: '2.2.+', configuration: 'test') {
+    testCompile(group: 'com.netflix.nebula', name: 'gradle-ospackage-plugin', version: versions.ospackage, configuration: 'test') {
         exclude group: 'com.netflix.nebula', module: 'nebula-test'
     }
-    testCompile 'com.netflix.nebula:gradle-ospackage-plugin:2.2.+:tests'
+    testCompile "com.netflix.nebula:gradle-ospackage-plugin:${versions.ospackage}:tests"
 }
 
 contacts {
