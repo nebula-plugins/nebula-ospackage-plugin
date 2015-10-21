@@ -35,6 +35,10 @@ class OspackageApplicationPlugin implements Plugin<Project> {
         ((IConventionAware) extension).conventionMapping.map('prefix') { '/opt'}
 
         project.plugins.apply(ApplicationPlugin)
+
+        // sets the location to $prefix/baseName-appendix-classifier
+        project.tasks.distZip.version = ''
+
         project.plugins.apply(SystemPackagingBasePlugin.class)
         def packagingExt = project.extensions.getByType(ProjectPackagingExtension)
         packagingExt.from { project.zipTree(project.tasks.distZip.outputs.files.singleFile) }
