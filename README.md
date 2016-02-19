@@ -21,7 +21,7 @@ To include, add the following to your build.gradle
         repositories { jcenter() }
 
         dependencies {
-            classpath 'com.netflix.nebula:nebula-ospackage-plugin:3.0.0'
+            classpath 'com.netflix.nebula:nebula-ospackage-plugin:3.+'
         }
     }
 
@@ -94,7 +94,7 @@ To include, add the following to your build.gradle
         repositories { jcenter() }
 
         dependencies {
-            classpath 'com.netflix.nebula:nebula-ospackage-plugin:3.0.0'
+            classpath 'com.netflix.nebula:nebula-ospackage-plugin:3.+'
         }
     }
 
@@ -131,7 +131,7 @@ To include, add the following to your build.gradle
         repositories { jcenter() }
 
         dependencies {
-            classpath 'com.netflix.nebula:nebula-ospackage-plugin:3.0.0'
+            classpath 'com.netflix.nebula:nebula-ospackage-plugin:3.+'
         }
     }
 
