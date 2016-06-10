@@ -1,5 +1,7 @@
 language: java
 sudo: false
+git:
+  depth: 100
 jdk:
 - oraclejdk7
 install: true
